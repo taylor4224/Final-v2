@@ -10,16 +10,21 @@ import SpriteKit
 import GameplayKit
 
 class GameScene: SKScene {
-
     
-    var waterTileMap:SKTileMapNode!
     var landBackground:SKTileMapNode!
+    var waterTileMap:SKTileMapNode!
+    
+    
+    // touch location
+    var targetLocation: CGPoint = .zero
+    
     
     override func didMove(to view: SKView) {
         loadSceneNodes()
+        
         setupWater()
     }
-        
+    
     func loadSceneNodes() {
         guard let landBackground = childNode(withName: "landBackground")
             as? SKTileMapNode else {
@@ -29,47 +34,47 @@ class GameScene: SKScene {
     }
     
     func setupWater() {
-        let columns = 24
+        let columns = 32
         let rows = 24
-        let size = CGSize(width: 32, height: 32)
+        let size = CGSize(width: 64, height: 64)
         
+        // 1
         guard let tileSet = SKTileSet(named: "Water Tile") else {
-            fatalError("Water Tile not found")
+            fatalError("Water Tile Set not found")
         }
         
+        // 2
         waterTileMap = SKTileMapNode(tileSet: tileSet,
                                        columns: columns,
                                        rows: rows,
                                        tileSize: size)
         
+        // 3
         addChild(waterTileMap)
         
-        let waterSource = tileSet.tileGroups
+        // 4
+        let tileGroups = tileSet.tileGroups
         
-        guard let waterTile = waterSource.first(where: {$0.name == "Water"}) else {
+        // 5
+        guard let waterTile = tileGroups.first(where: {$0.name == "Water"}) else {
             fatalError("No Water tile definition found")
         }
         
-        let sourcesOfWater = 7
+        // 6
+        let waterSources = 10
         
-        for _ in 1...sourcesOfWater {
+        // 7
+        for _ in 1...waterSources {
             
+            // 8
             let column = Int(arc4random_uniform(UInt32(columns)))
             let row = Int(arc4random_uniform(UInt32(rows)))
             
-            let groundTile = waterTileMap.tileDefinition(atColumn: column, row: row)
+            // 9
+            let tile = waterTile
             
-            let tile = groundTile == nil ? waterTile : waterTile
-            
+            // 10
             waterTileMap.setTileGroup(tile, forColumn: column, row: row)
         }
-
-    }
-
-    
-    
-    
-    override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
     }
 }
