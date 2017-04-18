@@ -34,8 +34,8 @@ class GameScene: SKScene {
     }
     
     func setupWater() {
-        let columns = 32
-        let rows = 24
+        let columns = 23
+        let rows = 13
         let size = CGSize(width: 64, height: 64)
         
         // 1
