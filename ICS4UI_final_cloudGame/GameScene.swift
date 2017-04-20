@@ -76,9 +76,6 @@ class GameScene: SKScene {
             let tile = waterTile
             
             waterTileMap.setTileGroup(tile, forColumn: column, row: row)
-            
-            //let tile = water
         }
     }
-    //func touchesBegan
 }
