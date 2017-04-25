@@ -20,8 +20,6 @@ class GameScene: SKScene {
     
     var cam:SKCameraNode!
     
-    var myLabel:SKLabelNode!
-    
     override func didMove(to view: SKView) {
         
         cam = SKCameraNode()
@@ -101,6 +99,7 @@ class GameScene: SKScene {
         let posY = 32+64*locY
         
         cam.position = CGPoint(x: posX, y: posY)
+        
     }
     
     // add function so that if the touch is held for 2 seconds, it will display the information of the tile, which as of April 24th would only be if it's a water tile or not
