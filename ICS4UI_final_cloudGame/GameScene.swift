@@ -20,6 +20,8 @@ class GameScene: SKScene {
     
     var cam:SKCameraNode!
     
+     var myLabel:SKLabelNode!
+    
     override func didMove(to view: SKView) {
         
         cam = SKCameraNode()
@@ -29,6 +31,12 @@ class GameScene: SKScene {
         self.addChild(cam)
 
         cam.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+        
+        myLabel = SKLabelNode(fontNamed: "Arial")
+        myLabel.text = "^"
+        myLabel.fontSize = 20
+        myLabel.fontColor = SKColor.white
+        cam.addChild(myLabel)
         
         // preparing the map, making sure the forest background loaded, and that water tiles get placed
         loadSceneNodes()
@@ -99,6 +107,12 @@ class GameScene: SKScene {
         let posY = 32+64*locY
         
         cam.position = CGPoint(x: posX, y: posY)
+        
+        if landBackground.tileDefinition(atColumn: Int(locX), row: Int(locY)) == nil {
+            myLabel.text = "This is a grass tile"
+        } else {
+            myLabel.text = "This is a water tile"
+        }
         
     }
     
