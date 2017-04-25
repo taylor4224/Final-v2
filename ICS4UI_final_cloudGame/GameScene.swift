@@ -73,12 +73,43 @@ class GameScene: SKScene {
             let column = Int(arc4random_uniform(UInt32(columns)))
             let row = Int(arc4random_uniform(UInt32(rows)))
             
-            let tile = waterTile
-            
-            waterTileMap.setTileGroup(tile, forColumn: column, row: row)
-            
-            //let tile = water
+            waterTileMap.setTileGroup(waterTile, forColumn: column, row: row)
         }
     }
-    //func touchesBegan
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let firstTouch = touches.first
+        let location = (firstTouch?.location(in: self))!
+        // taking raw x,y position and forcing the camera to only be in the middle of a tile
+        var locX = location.x/64
+        var locY = location.y/64
+        locX = locX - locX.truncatingRemainder(dividingBy: 1.0)
+        locY = locY - locY.truncatingRemainder(dividingBy: 1.0)
+        if locX > 16 {
+            locX = 16
+        } else if locX < -16 {
+            locX = -16
+        }
+        if locY > 12 {
+            locY = 12
+        } else if locY < -12 {
+            locY = -12
+        }
+        let posX = 32+64*locX
+        let posY = 32+64*locY
+        
+        cam.position = CGPoint(x: posX, y: posY)
+        
+    }
+    
+    // add function so that if the touch is held for 2 seconds, it will display the information of the tile, which as of April 24th would only be if it's a water tile or not
 }
+
+
+
+
+
+
+
+
+
