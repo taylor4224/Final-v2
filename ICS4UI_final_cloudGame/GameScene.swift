@@ -85,7 +85,7 @@ class GameScene: SKScene {
         var locY = location.y/64
         locX = locX - locX.truncatingRemainder(dividingBy: 1.0)
         locY = locY - locY.truncatingRemainder(dividingBy: 1.0)
-        if locX > 16 {
+        /*if locX > 16 {
             locX = 16
         } else if locX < -16 {
             locX = -16
@@ -94,7 +94,7 @@ class GameScene: SKScene {
             locY = 12
         } else if locY < -12 {
             locY = -12
-        }
+        }*/
         let posX = 32+64*locX
         let posY = 32+64*locY
         
