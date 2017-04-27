@@ -91,18 +91,38 @@ class GameScene: SKScene {
         // taking raw x,y position and forcing the camera to only be in the middle of a tile
         var locX = location.x/64
         var locY = location.y/64
-        locX = locX - locX.truncatingRemainder(dividingBy: 1.0)
-        locY = locY - locY.truncatingRemainder(dividingBy: 1.0)
-        if locX > 16 {
-            locX = 16
-        } else if locX < -16 {
-            locX = -16
+        print(locX)
+        print(locY)
+        let zero:CGFloat = 0.0
+        let one:CGFloat = 1.0
+        let negone:CGFloat = -1.0
+        if locX>zero && locX<one {
+            locX = 0.0
+        } else if locX>negone && locX<zero  {
+            locX = -1.0
+        } else {
+            locX = locX - locX.truncatingRemainder(dividingBy: 1.0)
+            if locX > 16 {
+                locX = 16
+            } else if locX < -16 {
+                locX = -16
+            }
         }
-        if locY > 12 {
-            locY = 12
-        } else if locY < -12 {
-            locY = -12
+        if locY>zero && locY<one {
+            locY = 0.0
+        } else if locY>negone && locY<zero {
+            locY = -1.0
+        } else {
+            locY = locY - locY.truncatingRemainder(dividingBy: 1.0)
+            if locY > 12 {
+                locY = 12
+            } else if locY < -12 {
+                locY = -12
+            }
         }
+        //print("Location\(location)")
+        //print("locX: \(locX)")
+        //print("locY: \(locY)")
         let posX = 32+64*locX
         let posY = 32+64*locY
         
