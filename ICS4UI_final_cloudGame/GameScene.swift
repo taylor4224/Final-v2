@@ -136,6 +136,7 @@ class GameScene: SKScene {
         
     }
     
+    // need to update commit message
     // add function so that if the touch is held for 2 seconds, it will display the information of the tile, which as of April 24th would only be if it's a water tile or not
 }
 
