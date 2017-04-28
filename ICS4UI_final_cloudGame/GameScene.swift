@@ -88,44 +88,79 @@ class GameScene: SKScene {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let firstTouch = touches.first
         let location = (firstTouch?.location(in: self))!
-        // taking raw x,y position and forcing the camera to only be in the middle of a tile
+        
+        //taking raw coordinate position, and turning it into a location of a tile
         var locX = location.x/64
         var locY = location.y/64
-        print(locX)
-        print(locY)
-        let zero:CGFloat = 0.0
-        let one:CGFloat = 1.0
-        let negone:CGFloat = -1.0
+        //print(locX)
+        //print(locY)
+        var posX:CGFloat = 0
+        var posY:CGFloat = 0
+        let zero:CGFloat = 0
+        let one:CGFloat = 1
+        let negone:CGFloat = -1
+        var xPositive:Bool = true
+        var yPositive:Bool = true
+        
         if locX>zero && locX<one {
             locX = 0.0
+            xPositive = true
         } else if locX>negone && locX<zero  {
-            locX = -1.0
+            locX = 0.0
+            xPositive = false
         } else {
             locX = locX - locX.truncatingRemainder(dividingBy: 1.0)
-            if locX > 16 {
-                locX = 16
-            } else if locX < -16 {
-                locX = -16
+            if locX > 15 {
+                locX = 15
+            } else if locX < -15 {
+                locX = -15
             }
         }
+        print("x after trimming: \(locX)")
+        
+        
+        
         if locY>zero && locY<one {
             locY = 0.0
+            yPositive = true
         } else if locY>negone && locY<zero {
-            locY = -1.0
+            locY = 0.0
+            yPositive = false
         } else {
             locY = locY - locY.truncatingRemainder(dividingBy: 1.0)
-            if locY > 12 {
-                locY = 12
-            } else if locY < -12 {
-                locY = -12
+            if locY > 11 {
+                locY = 11
+            } else if locY < -11 {
+                locY = -11
             }
         }
-        //print("Location\(location)")
-        //print("locX: \(locX)")
-        //print("locY: \(locY)")
-        let posX = 32+64*locX
-        let posY = 32+64*locY
+        print("y after trimming: \(locY)")
+
+        if locX>=one {
+            xPositive = true
+        } else if locX<=negone {
+            xPositive = false
+        }
+        if locY>=one {
+            yPositive = true
+        } else if locY<=negone {
+            yPositive = false
+        }
         
+
+        if xPositive==true{
+            posX = 32+(64*locX)
+        } else if xPositive==false{
+            posX = -32+(64*locX)
+        }
+        if yPositive==true{
+            posY = 32+(64*locY)
+        } else if yPositive==false{
+            posY = -32+(64*locY)
+        }
+        
+        print("x position: \(posX)")
+        print("y position: \(posY)")
         cam.position = CGPoint(x: posX, y: posY)
         
         if landBackground.tileDefinition(atColumn: Int(locX), row: Int(locY)) == nil {
@@ -136,7 +171,6 @@ class GameScene: SKScene {
         
     }
     
-    // need to update commit message
     // add function so that if the touch is held for 2 seconds, it will display the information of the tile, which as of April 24th would only be if it's a water tile or not
 }
 
