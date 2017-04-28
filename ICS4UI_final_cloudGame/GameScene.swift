@@ -33,9 +33,9 @@ class GameScene: SKScene {
         cam.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         
         myLabel = SKLabelNode(fontNamed: "Arial")
-        myLabel.text = "^"
+        myLabel.text = "you are here"
         myLabel.fontSize = 20
-        myLabel.fontColor = SKColor.white
+        myLabel.fontColor = SKColor.black
         cam.addChild(myLabel)
         
         // preparing the map, making sure the forest background loaded, and that water tiles get placed
@@ -92,30 +92,72 @@ class GameScene: SKScene {
         //taking raw coordinate position, and turning it into a location of a tile
         var locX = location.x/64
         var locY = location.y/64
-        locX = locX - locX.truncatingRemainder(dividingBy: 1.0)
-        locY = locY - locY.truncatingRemainder(dividingBy: 1.0)
-        /*if locX > 16 {
-            locX = 16
-        } else if locX < -16 {
-            locX = -16
-        }
-        if locY > 12 {
-            locY = 12
-        } else if locY < -12 {
-            locY = -12
-        }*/
-        let posX = 32+64*locX
-        let posY = 32+64*locY
+
+        var posX:CGFloat = 0
+        var posY:CGFloat = 0
+        let zero:CGFloat = 0
+        let one:CGFloat = 1
+        let negone:CGFloat = -1
+        var xPositive:Bool = true
+        var yPositive:Bool = true
         
-        print("x position: \(posX)")
-        print("y position: \(posY)")
+        if locX>zero && locX<one {
+            locX = 0.0
+            xPositive = true
+        } else if locX>negone && locX<zero  {
+            locX = 0.0
+            xPositive = false
+        } else {
+            locX = locX - locX.truncatingRemainder(dividingBy: 1.0)
+            if locX > 15 {
+                locX = 15
+            } else if locX < -15 {
+                locX = -15
+            }
+        }
+        
+        
+        if locY>zero && locY<one {
+            locY = 0.0
+            yPositive = true
+        } else if locY>negone && locY<zero {
+            locY = 0.0
+            yPositive = false
+        } else {
+            locY = locY - locY.truncatingRemainder(dividingBy: 1.0)
+            if locY > 11 {
+                locY = 11
+            } else if locY < -11 {
+                locY = -11
+            }
+        }
+
+        
+        if locX>=one {
+            xPositive = true
+        } else if locX<=negone {
+            xPositive = false
+        }
+        if locY>=one {
+            yPositive = true
+        } else if locY<=negone {
+            yPositive = false
+        }
+        
+
+        if xPositive==true{
+            posX = 32+(64*locX)
+        } else if xPositive==false{
+            posX = -32+(64*locX)
+        }
+        if yPositive==true{
+            posY = 32+(64*locY)
+        } else if yPositive==false{
+            posY = -32+(64*locY)
+        }
+        
         cam.position = CGPoint(x: posX, y: posY)
         
-        if landBackground.tileDefinition(atColumn: Int(locX), row: Int(locY)) == nil {
-            myLabel.text = "This is a grass tile"
-        } else {
-            myLabel.text = "This is a water tile"
-        }
         
     }
     
