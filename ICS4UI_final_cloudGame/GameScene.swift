@@ -20,7 +20,7 @@ class GameScene: SKScene {
     
     var cam:SKCameraNode!
     
-     var myLabel:SKLabelNode!
+    var myLabel:SKLabelNode!
     
     override func didMove(to view: SKView) {
         
