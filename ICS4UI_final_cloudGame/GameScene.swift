@@ -20,7 +20,16 @@ class GameScene: SKScene {
     
     var cam:SKCameraNode!
     
-     var myLabel:SKLabelNode!
+    var myLabel:SKLabelNode!
+    
+    class Cloud {
+        var positionX:CGFloat = 0.0
+        var positionY:CGFloat = 0.0
+    }
+    class waterTile {
+        var locationX:CGFloat = 0.0
+        var locationY:CGFloat = 0.0
+    }
     
     override func didMove(to view: SKView) {
         
@@ -82,6 +91,7 @@ class GameScene: SKScene {
             let row = Int(arc4random_uniform(UInt32(rows)))
             
             waterTileMap.setTileGroup(waterTile, forColumn: column, row: row)
+            
         }
     }
     
