@@ -22,25 +22,25 @@ class GameScene: SKScene {
     
     var myLabel:SKLabelNode!
     
-    class Cloud {
+    class cloud {
         var positionX:CGFloat = 0.0
         var positionY:CGFloat = 0.0
     }
-    class waterTile {
-        var locationX:CGFloat = 0.0
-        var locationY:CGFloat = 0.0
-    }
+    
+    // dictionary where the key will be the tile identifier, and it will have a value of the row and column location. example; [first: [13, 20]]
+    var waterTiles: [String: [Int]] = [:]
     
     override func didMove(to view: SKView) {
         
+        // setting up camera
         cam = SKCameraNode()
-        // need to set the scale by default somehow :/
         
         self.camera = cam
         self.addChild(cam)
 
         cam.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         
+        // making label and attaching it to the camera so that it follows the camera
         myLabel = SKLabelNode(fontNamed: "Arial")
         myLabel.text = "you are here"
         myLabel.fontSize = 20
@@ -99,7 +99,7 @@ class GameScene: SKScene {
         let firstTouch = touches.first
         let location = (firstTouch?.location(in: self))!
         
-        //taking raw coordinate position, and turning it into a location of a tile
+        // taking raw coordinate position, and turning it into a location of a tile
         var locX = location.x/64
         var locY = location.y/64
 
@@ -171,7 +171,6 @@ class GameScene: SKScene {
         
     }
     
-    // add function so that if the touch is held for 2 seconds, it will display the information of the tile, which as of April 24th would only be if it's a water tile or not
 }
 
 
