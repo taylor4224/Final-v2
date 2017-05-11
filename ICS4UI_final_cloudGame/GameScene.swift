@@ -31,7 +31,7 @@ class GameScene: SKScene {
     var waterTiles: [String: [Int]] = [:]
     
     override func didMove(to view: SKView) {
-        
+                
         // setting up camera
         cam = SKCameraNode()
         
@@ -70,10 +70,7 @@ class GameScene: SKScene {
             fatalError("Water Tile Set not found")
         }
         
-        waterTileMap = SKTileMapNode(tileSet: tileSet,
-                                       columns: columns,
-                                       rows: rows,
-                                       tileSize: size)
+        waterTileMap = SKTileMapNode(tileSet: tileSet, columns: columns, rows: rows, tileSize: size)
         
         addChild(waterTileMap)
         
@@ -85,13 +82,19 @@ class GameScene: SKScene {
         
         let waterSources = 10
         
-        for _ in 1...waterSources {
+        for index in 1...waterSources {
             
             let column = Int(arc4random_uniform(UInt32(columns)))
             let row = Int(arc4random_uniform(UInt32(rows)))
             
             waterTileMap.setTileGroup(waterTile, forColumn: column, row: row)
             
+            // columns and rows are based starting in the lower left hand corner, with the row and column next to the white line being row/ column 0
+            waterTiles["\(index)"] = [column, row]
+            
+        }
+        for (tile, location) in waterTiles {
+            print("The location of tile \(tile) is \(location)")
         }
     }
     
@@ -167,7 +170,8 @@ class GameScene: SKScene {
         }
         
         cam.position = CGPoint(x: posX, y: posY)
-        
+        print("X: \(locX)")
+        print("Y: \(locY)")
         
     }
     
