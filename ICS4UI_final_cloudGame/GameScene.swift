@@ -90,12 +90,50 @@ class GameScene: SKScene {
             waterTileMap.setTileGroup(waterTile, forColumn: column, row: row)
             
             // columns and rows are based starting in the lower left hand corner, with the row and column next to the white line being row/ column 0
-            waterTiles["\(index)"] = [column, row]
+            waterTiles["\(index)"] = [column, row, columnSort(column: column), rowSort(row: row)]
             
         }
         for (tile, location) in waterTiles {
             print("The location of tile \(tile) is \(location)")
         }
+    }
+    
+    func columnSort(column:Int ) -> Int {
+            var columnPos = 42
+
+            if column > 16 {
+                columnPos = column - 16
+            }
+            else if column < 15 {
+                columnPos = column - 15
+            }
+            else if column == 16 {
+                columnPos = 32
+            }
+            else if column == 15 {
+                columnPos = -32
+            }
+     
+
+        return columnPos
+    }
+     
+    func rowSort(row:Int) -> Int {
+        var rowPos = 4224
+     
+        if row > 12 {
+            rowPos = row - 12
+        }
+        else if row < 11 {
+            rowPos = row - 11
+        }
+        else if row == 12 {
+           rowPos = 24
+        }
+        else if row == 11 {
+        rowPos = -24
+        }
+        return rowPos
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -146,14 +184,14 @@ class GameScene: SKScene {
         }
 
         
-        if locX>=one {
+        if locX >= one {
             xPositive = true
-        } else if locX<=negone {
+        } else if locX <= negone {
             xPositive = false
         }
-        if locY>=one {
+        if locY >= one {
             yPositive = true
-        } else if locY<=negone {
+        } else if locY <= negone {
             yPositive = false
         }
         
