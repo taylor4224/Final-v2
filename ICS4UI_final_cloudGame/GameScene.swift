@@ -22,6 +22,8 @@ class GameScene: SKScene {
     
     var myLabel:SKLabelNode!
     
+    var waterTiles: [String: [Int]] = [:]
+    
     override func didMove(to view: SKView) {
                 
         // setting up camera
