@@ -137,6 +137,8 @@ class GameScene: SKScene {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        myLabel.text = "you are here"
+        
         let firstTouch = touches.first
         let location = (firstTouch?.location(in: self))!
         
@@ -155,10 +157,12 @@ class GameScene: SKScene {
         if locX>zero && locX<one {
             locX = 0.0
             xPositive = true
-        } else if locX>negone && locX<zero  {
+        }
+        else if locX>negone && locX<zero  {
             locX = 0.0
             xPositive = false
-        } else {
+        }
+        else {
             locX = locX - locX.truncatingRemainder(dividingBy: 1.0)
             if locX > 15 {
                 locX = 15
@@ -171,10 +175,12 @@ class GameScene: SKScene {
         if locY>zero && locY<one {
             locY = 0.0
             yPositive = true
-        } else if locY>negone && locY<zero {
+        }
+        else if locY>negone && locY<zero {
             locY = 0.0
             yPositive = false
-        } else {
+        }
+        else {
             locY = locY - locY.truncatingRemainder(dividingBy: 1.0)
             if locY > 11 {
                 locY = 11
@@ -186,30 +192,71 @@ class GameScene: SKScene {
         
         if locX >= one {
             xPositive = true
-        } else if locX <= negone {
+        }
+        else if locX <= negone {
             xPositive = false
         }
         if locY >= one {
             yPositive = true
-        } else if locY <= negone {
+        }
+        else if locY <= negone {
             yPositive = false
         }
         
 
         if xPositive==true{
             posX = 32+(64*locX)
-        } else if xPositive==false{
+        }
+        else if xPositive==false{
             posX = -32+(64*locX)
         }
         if yPositive==true{
             posY = 32+(64*locY)
-        } else if yPositive==false{
+        }
+        else if yPositive==false{
             posY = -32+(64*locY)
         }
         
         cam.position = CGPoint(x: posX, y: posY)
         print("X: \(locX)")
         print("Y: \(locY)")
+        
+        // checking if camera is on top of water tile
+        for (_, location) in waterTiles {
+            if Int(locX) == location[2] {
+                if Int(locY) == location[3] {
+                    myLabel.text = "you are on a water tile"
+                }
+                else if (locY == 0 && yPositive == true && location[3] == 24) {
+                    myLabel.text = "you are on a water tile"
+                }
+                else if (locY == 0 && yPositive == false && location[3] == -24) {
+                    myLabel.text = "you are on a water tile"
+                }
+            }
+            else if (locX == 0 && xPositive == true && location[2] == 32) {
+                if Int(locY) == location[3] {
+                    myLabel.text = "you are on a water tile"
+                }
+                else if (locY == 0 && yPositive == true && location[3] == 24) {
+                    myLabel.text = "you are on a water tile"
+                }
+                else if (locY == 0 && yPositive == false && location[3] == -24) {
+                    myLabel.text = "you are on a water tile"
+                }
+            }
+            else if (locX == 0 && xPositive == false && location[2] == -32) {
+                if Int(locY) == location[3] {
+                    myLabel.text = "you are on a water tile"
+                }
+                else if (locY == 0 && yPositive == true && location[3] == 24) {
+                    myLabel.text = "you are on a water tile"
+                }
+                else if (locY == 0 && yPositive == false && location[3] == -24) {
+                    myLabel.text = "you are on a water tile"
+                }
+            }
+        }
         
     }
     
