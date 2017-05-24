@@ -27,7 +27,6 @@ class GameScene: SKScene {
         var positionY:CGFloat = 0.0
     }
     
-    // dictionary where the key will be the tile identifier, and it will have a value of the row and column location. example; [first: [13, 20]]
     var waterTiles: [String: [Int]] = [:]
     
     override func didMove(to view: SKView) {
@@ -166,7 +165,8 @@ class GameScene: SKScene {
             locX = locX - locX.truncatingRemainder(dividingBy: 1.0)
             if locX > 15 {
                 locX = 15
-            } else if locX < -15 {
+            }
+            else if locX < -15 {
                 locX = -15
             }
         }
@@ -184,7 +184,8 @@ class GameScene: SKScene {
             locY = locY - locY.truncatingRemainder(dividingBy: 1.0)
             if locY > 11 {
                 locY = 11
-            } else if locY < -11 {
+            }
+            else if locY < -11 {
                 locY = -11
             }
         }
@@ -257,7 +258,12 @@ class GameScene: SKScene {
                 }
             }
         }
-        
+        let wait = SKAction.wait(forDuration:2.0)
+        let action = SKAction.run {
+            //cloud.positionX = posX
+            //cloud.positionY = posY
+        }
+        run(SKAction.sequence([wait,action]))
     }
     
 }
