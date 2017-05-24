@@ -51,6 +51,7 @@ class GameScene: SKScene {
         setupWater()
     }
     
+    
     // making sure forest background loads
     func loadSceneNodes() {
         guard let landBackground = childNode(withName: "landBackground") as? SKTileMapNode else {
