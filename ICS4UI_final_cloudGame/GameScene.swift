@@ -57,6 +57,9 @@ class GameScene: SKScene {
         myLabel.fontColor = SKColor.black
         cam.addChild(myLabel)
         
+        
+        
+        
         // preparing the map, making sure the forest background loaded, and that water tiles get placed
         loadSceneNodes()
         setupWater()
@@ -73,8 +76,8 @@ class GameScene: SKScene {
     
     // randomly placing water tiles on top of forest tiles
     func setupWater() {
-        let columns = 32
-        let rows = 24
+        let columns = 33
+        let rows = 25
         let size = CGSize(width: 64, height: 64)
         
         guard let tileSet = SKTileSet(named: "Water Tile") else {
@@ -159,76 +162,9 @@ class GameScene: SKScene {
 
         var posX:CGFloat = 0
         var posY:CGFloat = 0
-        let zero:CGFloat = 0
-        let one:CGFloat = 1
-        let negone:CGFloat = -1
-        var xPositive:Bool = true
-        var yPositive:Bool = true
         
-        if locX>zero && locX<one {
-            locX = 0.0
-            xPositive = true
-        }
-        else if locX>negone && locX<zero  {
-            locX = 0.0
-            xPositive = false
-        }
-        else {
-            locX = locX - locX.truncatingRemainder(dividingBy: 1.0)
-            if locX > 15 {
-                locX = 15
-            }
-            else if locX < -15 {
-                locX = -15
-            }
-        }
+        //let locX = locX.truncatingRemainder(dividingBy: 1)
         
-        
-        if locY>zero && locY<one {
-            locY = 0.0
-            yPositive = true
-        }
-        else if locY>negone && locY<zero {
-            locY = 0.0
-            yPositive = false
-        }
-        else {
-            locY = locY - locY.truncatingRemainder(dividingBy: 1.0)
-            if locY > 11 {
-                locY = 11
-            }
-            else if locY < -11 {
-                locY = -11
-            }
-        }
-
-        
-        if locX >= one {
-            xPositive = true
-        }
-        else if locX <= negone {
-            xPositive = false
-        }
-        if locY >= one {
-            yPositive = true
-        }
-        else if locY <= negone {
-            yPositive = false
-        }
-        
-
-        if xPositive==true{
-            posX = 32+(64*locX)
-        }
-        else if xPositive==false{
-            posX = -32+(64*locX)
-        }
-        if yPositive==true{
-            posY = 32+(64*locY)
-        }
-        else if yPositive==false{
-            posY = -32+(64*locY)
-        }
         
         cam.position = CGPoint(x: posX, y: posY)
         print("X: \(locX)")
@@ -240,34 +176,24 @@ class GameScene: SKScene {
                 if Int(locY) == location[3] {
                     myLabel.text = "you are on a water tile"
                 }
-                else if (locY == 0 && yPositive == true && location[3] == 24) {
+                else if (locY == 0  && location[3] == 24) {
                     myLabel.text = "you are on a water tile"
                 }
-                else if (locY == 0 && yPositive == false && location[3] == -24) {
-                    myLabel.text = "you are on a water tile"
-                }
-            }
-            else if (locX == 0 && xPositive == true && location[2] == 32) {
-                if Int(locY) == location[3] {
-                    myLabel.text = "you are on a water tile"
-                }
-                else if (locY == 0 && yPositive == true && location[3] == 24) {
-                    myLabel.text = "you are on a water tile"
-                }
-                else if (locY == 0 && yPositive == false && location[3] == -24) {
+                else if (locY == 0  && location[3] == -24) {
                     myLabel.text = "you are on a water tile"
                 }
             }
-            else if (locX == 0 && xPositive == false && location[2] == -32) {
+            else if (locX == 0 && location[2] == 32) {
                 if Int(locY) == location[3] {
                     myLabel.text = "you are on a water tile"
                 }
-                else if (locY == 0 && yPositive == true && location[3] == 24) {
+                else if (locY == 0 && location[3] == 24) {
                     myLabel.text = "you are on a water tile"
                 }
-                else if (locY == 0 && yPositive == false && location[3] == -24) {
+                else if (locY == 0 && location[3] == 24) {
                     myLabel.text = "you are on a water tile"
                 }
+
             }
         }
         /* thought: instead of having tap and hold, if the user taps the tile the camera is on more than once, move the cloud to the camera
