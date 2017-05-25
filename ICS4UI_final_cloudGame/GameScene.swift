@@ -104,7 +104,7 @@ class GameScene: SKScene {
             waterTileMap.setTileGroup(waterTile, forColumn: column, row: row)
             
             // columns and rows are based starting in the lower left hand corner, with the row and column next to the white line being row/ column 0
-            waterTiles["\(index)"] = [column, row, columnSort(column: column), rowSort(row: row)]
+            waterTiles["\(index)"] = [column, row]
             
         }
         for (tile, location) in waterTiles {
@@ -112,43 +112,7 @@ class GameScene: SKScene {
         }
     }
     
-    func columnSort(column:Int ) -> Int {
-            var columnPos = 42
 
-            if column > 16 {
-                columnPos = column - 16
-            }
-            else if column < 15 {
-                columnPos = column - 15
-            }
-            else if column == 16 {
-                columnPos = 32
-            }
-            else if column == 15 {
-                columnPos = -32
-            }
-     
-
-        return columnPos
-    }
-     
-    func rowSort(row:Int) -> Int {
-        var rowPos = 4224
-     
-        if row > 12 {
-            rowPos = row - 12
-        }
-        else if row < 11 {
-            rowPos = row - 11
-        }
-        else if row == 12 {
-           rowPos = 24
-        }
-        else if row == 11 {
-        rowPos = -24
-        }
-        return rowPos
-    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         myLabel.text = "you are here"
@@ -160,42 +124,21 @@ class GameScene: SKScene {
         var locX = location.x/64
         var locY = location.y/64
 
-        var posX:CGFloat = 0
-        var posY:CGFloat = 0
+        var posX:CGFloat = 32
+        var posY:CGFloat = 32
         
-        //let locX = locX.truncatingRemainder(dividingBy: 1)
+        locX = locX - locX.truncatingRemainder(dividingBy: 1)
+        locY = locY - locY.truncatingRemainder(dividingBy: 1)
+        
+        posX += 64*locX
+        posY += 64*locY
         
         
         cam.position = CGPoint(x: posX, y: posY)
         print("X: \(locX)")
         print("Y: \(locY)")
         
-        // checking if camera is on top of water tile
-        for (_, location) in waterTiles {
-            if Int(locX) == location[2] {
-                if Int(locY) == location[3] {
-                    myLabel.text = "you are on a water tile"
-                }
-                else if (locY == 0  && location[3] == 24) {
-                    myLabel.text = "you are on a water tile"
-                }
-                else if (locY == 0  && location[3] == -24) {
-                    myLabel.text = "you are on a water tile"
-                }
-            }
-            else if (locX == 0 && location[2] == 32) {
-                if Int(locY) == location[3] {
-                    myLabel.text = "you are on a water tile"
-                }
-                else if (locY == 0 && location[3] == 24) {
-                    myLabel.text = "you are on a water tile"
-                }
-                else if (locY == 0 && location[3] == 24) {
-                    myLabel.text = "you are on a water tile"
-                }
 
-            }
-        }
         /* thought: instead of having tap and hold, if the user taps the tile the camera is on more than once, move the cloud to the camera
         
         let wait = SKAction.wait(forDuration:2.0)
