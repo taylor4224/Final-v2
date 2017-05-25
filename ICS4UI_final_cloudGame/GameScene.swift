@@ -27,10 +27,21 @@ class GameScene: SKScene {
         var positionY:CGFloat = 0.0
     }
     
+    let player = cloud()
+    
+    var lastX:CGFloat = 0
+    var lastY:CGFloat = 0
+    
     var waterTiles: [String: [Int]] = [:]
     
     override func didMove(to view: SKView) {
-                
+        
+        let size = CGSize(width: 64, height: 64)
+        let cloud = SKTexture(image: #imageLiteral(resourceName: "bg_cloud8"))
+        let cloudNode = SKSpriteNode(texture: cloud, size: size)
+        self.addChild(cloudNode)
+        cloudNode.position = CGPoint(x: 32, y: 32)
+        
         // setting up camera
         cam = SKCameraNode()
         
@@ -259,12 +270,14 @@ class GameScene: SKScene {
                 }
             }
         }
+        /* thought: instead of having tap and hold, if the user taps the tile the camera is on more than once, move the cloud to the camera
+        
         let wait = SKAction.wait(forDuration:2.0)
         let action = SKAction.run {
             //cloud.positionX = posX
             //cloud.positionY = posY
         }
-        run(SKAction.sequence([wait,action]))
+        run(SKAction.sequence([wait,action]))*/
     }
     
 }
