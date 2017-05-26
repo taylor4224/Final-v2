@@ -76,8 +76,8 @@ class GameScene: SKScene {
     
     // randomly placing water tiles on top of forest tiles
     func setupWater() {
-        let columns = 33
-        let rows = 25
+        let columns = 66
+        let rows = 50
         let size = CGSize(width: 64, height: 64)
         
         guard let tileSet = SKTileSet(named: "Water Tile") else {
@@ -94,16 +94,25 @@ class GameScene: SKScene {
             fatalError("No Water tile definition found")
         }
         
-        let waterSources = 10
+        let waterSources = 12
         
         for index in 1...waterSources {
             
-            let column = Int(arc4random_uniform(UInt32(columns)))
-            let row = Int(arc4random_uniform(UInt32(rows)))
+            var column = Int(arc4random_uniform(UInt32(columns)))
+            var row = Int(arc4random_uniform(UInt32(rows)))
+            
+            while column < 33 {
+                column = Int(arc4random_uniform(UInt32(columns)))
+            }
+            while row < 25 {
+                row = Int(arc4random_uniform(UInt32(rows)))
+            }
             
             waterTileMap.setTileGroup(waterTile, forColumn: column, row: row)
             
-            // columns and rows are based starting in the lower left hand corner, with the row and column next to the white line being row/ column 0
+            column = column - 33
+            row = row - 25
+            
             waterTiles["\(index)"] = [column, row]
             
         }
