@@ -126,6 +126,11 @@ class GameScene: SKScene {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         myLabel.text = "you are here"
         
+        let zero:CGFloat = 0.0
+        let twenty:CGFloat = 24.0
+        let thirty:CGFloat = 32.0
+        
+        
         let firstTouch = touches.first
         let location = (firstTouch?.location(in: self))!
         
@@ -138,6 +143,20 @@ class GameScene: SKScene {
         
         locX = locX - locX.truncatingRemainder(dividingBy: 1)
         locY = locY - locY.truncatingRemainder(dividingBy: 1)
+        
+        if locX < zero {
+            locX = zero
+        }
+        if locX > thirty {
+            locX = thirty
+        }
+        if locY < zero {
+            locX = zero
+        }
+        if locY > twenty {
+            locX = twenty
+        }
+
         
         posX += 64*locX
         posY += 64*locY
