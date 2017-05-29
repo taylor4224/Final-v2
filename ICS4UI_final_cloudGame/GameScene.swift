@@ -151,10 +151,10 @@ class GameScene: SKScene {
             locX = thirty
         }
         if locY < zero {
-            locX = zero
+            locY = zero
         }
         if locY > twenty {
-            locX = twenty
+            locY = twenty
         }
 
         
