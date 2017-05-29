@@ -23,12 +23,14 @@ class GameScene: SKScene {
     var myLabel:SKLabelNode!
     
     class cloud {
+        let size = CGSize(width: 64, height: 64)
+        let image = SKTexture(image: #imageLiteral(resourceName: "bg_cloud8"))
         var positionX:CGFloat = 0.0
         var positionY:CGFloat = 0.0
     }
     
     let player = cloud()
-    
+        
     var lastX:CGFloat = 0
     var lastY:CGFloat = 0
     
@@ -36,11 +38,11 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         
-        let size = CGSize(width: 64, height: 64)
-        let cloud = SKTexture(image: #imageLiteral(resourceName: "bg_cloud8"))
-        let cloudNode = SKSpriteNode(texture: cloud, size: size)
+        // thought: move cloud up a tile, while having a shadow on the tile you are on. dunno if i can get semi-transparent images but if not, make it small enough that you can see the tile it's on
+        
+        let cloudNode = SKSpriteNode(texture: player.image, size: player.size)
         self.addChild(cloudNode)
-        cloudNode.position = CGPoint(x: 32, y: 32)
+        cloudNode.position = CGPoint(x: 1056, y: 800)
         
         // setting up camera
         cam = SKCameraNode()
@@ -56,8 +58,6 @@ class GameScene: SKScene {
         myLabel.fontSize = 20
         myLabel.fontColor = SKColor.black
         cam.addChild(myLabel)
-        
-        
         
         
         // preparing the map, making sure the forest background loaded, and that water tiles get placed
@@ -147,15 +147,28 @@ class GameScene: SKScene {
         print("X: \(locX)")
         print("Y: \(locY)")
         
+        
+
+         for (_, location) in waterTiles {
+            if Int(locX) == location[0] && Int(locY) == location[1]{
+                    myLabel.text = "you are on a water tile"
+            }
+        }
+        
+        if locX == lastX && locY == lastY {
+            
+        }
 
         /* thought: instead of having tap and hold, if the user taps the tile the camera is on more than once, move the cloud to the camera
-        
+         
         let wait = SKAction.wait(forDuration:2.0)
         let action = SKAction.run {
             //cloud.positionX = posX
             //cloud.positionY = posY
         }
         run(SKAction.sequence([wait,action]))*/
+        lastX = locX
+        lastY = locY
     }
     
 }
