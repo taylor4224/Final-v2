@@ -39,10 +39,11 @@ class GameScene: SKScene {
     override func didMove(to view: SKView) {
         
         // thought: move cloud up a tile, while having a shadow on the tile you are on. dunno if i can get semi-transparent images but if not, make it small enough that you can see the tile it's on
-        
+        // have a function that removes the cloudnode from the parent, or just update the position of the cloud
         let cloudNode = SKSpriteNode(texture: player.image, size: player.size)
         self.addChild(cloudNode)
         cloudNode.position = CGPoint(x: 1056, y: 800)
+        cloudNode.removeFromParent()
         
         // setting up camera
         cam = SKCameraNode()
@@ -175,22 +176,23 @@ class GameScene: SKScene {
         }
         
         if locX == lastX && locY == lastY {
-            
+            cloudPlacement(ex: posX, why: posY)
         }
 
-        /* thought: instead of having tap and hold, if the user taps the tile the camera is on more than once, move the cloud to the camera
-         
-        let wait = SKAction.wait(forDuration:2.0)
-        let action = SKAction.run {
-            //cloud.positionX = posX
-            //cloud.positionY = posY
-        }
-        run(SKAction.sequence([wait,action]))*/
         lastX = locX
         lastY = locY
     }
     
+    func cloudPlacement(ex:CGFloat, why:CGFloat) {
+        let cloudNode = SKSpriteNode(texture: player.image, size: player.size)
+        cloudNode.removeAllChildren()
+        self.addChild(cloudNode)
+        cloudNode.position = CGPoint(x: ex, y: why)
+    }
+    
 }
+
+
 
 
 
