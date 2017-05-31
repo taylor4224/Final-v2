@@ -25,7 +25,14 @@ class GameScene: SKScene {
     var waterTiles: [String: [Int]] = [:]
     
     override func didMove(to view: SKView) {
-                
+        
+        // thought: move cloud up a tile, while having a shadow on the tile you are on. dunno if i can get semi-transparent images but if not, make it small enough that you can see the tile it's on
+        // have a function that removes the cloudnode from the parent, or just update the position of the cloud
+        let cloudNode = SKSpriteNode(texture: player.image, size: player.size)
+        self.addChild(cloudNode)
+        cloudNode.position = CGPoint(x: 1056, y: 800)
+        cloudNode.removeFromParent()
+        
         // setting up camera
         cam = SKCameraNode()
         
@@ -41,10 +48,12 @@ class GameScene: SKScene {
         myLabel.fontColor = SKColor.black
         cam.addChild(myLabel)
         
+        
         // preparing the map, making sure the forest background loaded, and that water tiles get placed
         loadSceneNodes()
         setupWater()
     }
+    
     
     // making sure forest background loads
     func loadSceneNodes() {
@@ -56,8 +65,8 @@ class GameScene: SKScene {
     
     // randomly placing water tiles on top of forest tiles
     func setupWater() {
-        let columns = 32
-        let rows = 24
+        let columns = 66
+        let rows = 50
         let size = CGSize(width: 64, height: 64)
         
         guard let tileSet = SKTileSet(named: "Water Tile") else {
@@ -74,17 +83,26 @@ class GameScene: SKScene {
             fatalError("No Water tile definition found")
         }
         
-        let waterSources = 10
+        let waterSources = 12
         
         for index in 1...waterSources {
             
-            let column = Int(arc4random_uniform(UInt32(columns)))
-            let row = Int(arc4random_uniform(UInt32(rows)))
+            var column = Int(arc4random_uniform(UInt32(columns)))
+            var row = Int(arc4random_uniform(UInt32(rows)))
+            
+            while column < 33 {
+                column = Int(arc4random_uniform(UInt32(columns)))
+            }
+            while row < 25 {
+                row = Int(arc4random_uniform(UInt32(rows)))
+            }
             
             waterTileMap.setTileGroup(waterTile, forColumn: column, row: row)
             
-            // columns and rows are based starting in the lower left hand corner, with the row and column next to the white line being row/ column 0
-            waterTiles["\(index)"] = [column, row, columnSort(column: column), rowSort(row: row)]
+            column = column - 33
+            row = row - 25
+            
+            waterTiles["\(index)"] = [column, row]
             
         }
         for (tile, location) in waterTiles {
@@ -92,46 +110,15 @@ class GameScene: SKScene {
         }
     }
     
-    func columnSort(column:Int ) -> Int {
-            var columnPos = 42
 
-            if column > 16 {
-                columnPos = column - 16
-            }
-            else if column < 15 {
-                columnPos = column - 15
-            }
-            else if column == 16 {
-                columnPos = 32
-            }
-            else if column == 15 {
-                columnPos = -32
-            }
-     
-
-        return columnPos
-    }
-     
-    func rowSort(row:Int) -> Int {
-        var rowPos = 4224
-     
-        if row > 12 {
-            rowPos = row - 12
-        }
-        else if row < 11 {
-            rowPos = row - 11
-        }
-        else if row == 12 {
-           rowPos = 24
-        }
-        else if row == 11 {
-        rowPos = -24
-        }
-        return rowPos
-    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         myLabel.text = "you are here"
+        
+        let zero:CGFloat = 0.0
+        let twenty:CGFloat = 24.0
+        let thirty:CGFloat = 32.0
+        
         
         let firstTouch = touches.first
         let location = (firstTouch?.location(in: self))!
@@ -140,121 +127,60 @@ class GameScene: SKScene {
         var locX = location.x/64
         var locY = location.y/64
 
-        var posX:CGFloat = 0
-        var posY:CGFloat = 0
-        let zero:CGFloat = 0
-        let one:CGFloat = 1
-        let negone:CGFloat = -1
-        var xPositive:Bool = true
-        var yPositive:Bool = true
+        var posX:CGFloat = 32
+        var posY:CGFloat = 32
         
-        if locX>zero && locX<one {
-            locX = 0.0
-            xPositive = true
-        }
-        else if locX>negone && locX<zero  {
-            locX = 0.0
-            xPositive = false
-        }
-        else {
-            locX = locX - locX.truncatingRemainder(dividingBy: 1.0)
-            if locX > 15 {
-                locX = 15
-            } else if locX < -15 {
-                locX = -15
-            }
-        }
+        locX = locX - locX.truncatingRemainder(dividingBy: 1)
+        locY = locY - locY.truncatingRemainder(dividingBy: 1)
         
-        
-        if locY>zero && locY<one {
-            locY = 0.0
-            yPositive = true
+        if locX < zero {
+            locX = zero
         }
-        else if locY>negone && locY<zero {
-            locY = 0.0
-            yPositive = false
+        if locX > thirty {
+            locX = thirty
         }
-        else {
-            locY = locY - locY.truncatingRemainder(dividingBy: 1.0)
-            if locY > 11 {
-                locY = 11
-            } else if locY < -11 {
-                locY = -11
-            }
+        if locY < zero {
+            locY = zero
+        }
+        if locY > twenty {
+            locY = twenty
         }
 
         
-        if locX >= one {
-            xPositive = true
-        }
-        else if locX <= negone {
-            xPositive = false
-        }
-        if locY >= one {
-            yPositive = true
-        }
-        else if locY <= negone {
-            yPositive = false
-        }
+        posX += 64*locX
+        posY += 64*locY
         
-
-        if xPositive==true{
-            posX = 32+(64*locX)
-        }
-        else if xPositive==false{
-            posX = -32+(64*locX)
-        }
-        if yPositive==true{
-            posY = 32+(64*locY)
-        }
-        else if yPositive==false{
-            posY = -32+(64*locY)
-        }
         
         cam.position = CGPoint(x: posX, y: posY)
         print("X: \(locX)")
         print("Y: \(locY)")
         
-        // checking if camera is on top of water tile
-        for (_, location) in waterTiles {
-            if Int(locX) == location[2] {
-                if Int(locY) == location[3] {
+        
+
+         for (_, location) in waterTiles {
+            if Int(locX) == location[0] && Int(locY) == location[1]{
                     myLabel.text = "you are on a water tile"
-                }
-                else if (locY == 0 && yPositive == true && location[3] == 24) {
-                    myLabel.text = "you are on a water tile"
-                }
-                else if (locY == 0 && yPositive == false && location[3] == -24) {
-                    myLabel.text = "you are on a water tile"
-                }
-            }
-            else if (locX == 0 && xPositive == true && location[2] == 32) {
-                if Int(locY) == location[3] {
-                    myLabel.text = "you are on a water tile"
-                }
-                else if (locY == 0 && yPositive == true && location[3] == 24) {
-                    myLabel.text = "you are on a water tile"
-                }
-                else if (locY == 0 && yPositive == false && location[3] == -24) {
-                    myLabel.text = "you are on a water tile"
-                }
-            }
-            else if (locX == 0 && xPositive == false && location[2] == -32) {
-                if Int(locY) == location[3] {
-                    myLabel.text = "you are on a water tile"
-                }
-                else if (locY == 0 && yPositive == true && location[3] == 24) {
-                    myLabel.text = "you are on a water tile"
-                }
-                else if (locY == 0 && yPositive == false && location[3] == -24) {
-                    myLabel.text = "you are on a water tile"
-                }
             }
         }
         
+        if locX == lastX && locY == lastY {
+            cloudPlacement(ex: posX, why: posY)
+        }
+
+        lastX = locX
+        lastY = locY
+    }
+    
+    func cloudPlacement(ex:CGFloat, why:CGFloat) {
+        let cloudNode = SKSpriteNode(texture: player.image, size: player.size)
+        cloudNode.removeAllChildren()
+        self.addChild(cloudNode)
+        cloudNode.position = CGPoint(x: ex, y: why)
     }
     
 }
+
+
 
 
 
