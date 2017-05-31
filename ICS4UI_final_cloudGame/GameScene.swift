@@ -14,6 +14,12 @@ class GameScene: SKScene {
     var landBackground:SKTileMapNode!
     var waterTileMap:SKTileMapNode!
     
+    class cloude {
+        let size = CGSize(width: 64, height: 64)
+        let image = SKTexture(image: #imageLiteral(resourceName: "bg_cloud8"))
+    }
+    
+    let player = cloude()
     
     // touch location
     var targetLocation: CGPoint = .zero
@@ -162,22 +168,7 @@ class GameScene: SKScene {
                     myLabel.text = "you are on a water tile"
             }
         }
-        
-        if locX == lastX && locY == lastY {
-            cloudPlacement(ex: posX, why: posY)
-        }
-
-        lastX = locX
-        lastY = locY
     }
-    
-    func cloudPlacement(ex:CGFloat, why:CGFloat) {
-        let cloudNode = SKSpriteNode(texture: player.image, size: player.size)
-        cloudNode.removeAllChildren()
-        self.addChild(cloudNode)
-        cloudNode.position = CGPoint(x: ex, y: why)
-    }
-    
 }
 
 
