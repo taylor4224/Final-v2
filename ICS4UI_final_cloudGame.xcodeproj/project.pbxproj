@@ -17,7 +17,6 @@
 		3F4D66FD1E83FED400A35EBF /* ICS4UI_final_cloudGameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4D66FC1E83FED400A35EBF /* ICS4UI_final_cloudGameTests.swift */; };
 		3F4D67081E83FED400A35EBF /* ICS4UI_final_cloudGameUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4D67071E83FED400A35EBF /* ICS4UI_final_cloudGameUITests.swift */; };
 		FA66245C1E9D075B00DBB8F4 /* Tiles.sks in Resources */ = {isa = PBXBuildFile; fileRef = FA66245B1E9D075B00DBB8F4 /* Tiles.sks */; };
-		FAA4175F1E9A1C6E00763639 /* WaterTile.sks in Resources */ = {isa = PBXBuildFile; fileRef = FAA4175D1E9A1C6E00763639 /* WaterTile.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,7 +53,6 @@
 		3F4D67071E83FED400A35EBF /* ICS4UI_final_cloudGameUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ICS4UI_final_cloudGameUITests.swift; sourceTree = "<group>"; };
 		3F4D67091E83FED400A35EBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FA66245B1E9D075B00DBB8F4 /* Tiles.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Tiles.sks; sourceTree = "<group>"; };
-		FAA4175D1E9A1C6E00763639 /* WaterTile.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = WaterTile.sks; path = ../WaterTile.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,7 +103,6 @@
 		3F4D66E01E83FED300A35EBF /* ICS4UI_final_cloudGame */ = {
 			isa = PBXGroup;
 			children = (
-				FAA4175D1E9A1C6E00763639 /* WaterTile.sks */,
 				3F4D66E11E83FED300A35EBF /* AppDelegate.swift */,
 				3F4D66E31E83FED300A35EBF /* GameScene.sks */,
 				FA66245B1E9D075B00DBB8F4 /* Tiles.sks */,
@@ -245,7 +242,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F4D66ED1E83FED300A35EBF /* Main.storyboard in Resources */,
-				FAA4175F1E9A1C6E00763639 /* WaterTile.sks in Resources */,
 				3F4D66E41E83FED300A35EBF /* GameScene.sks in Resources */,
 				3F4D66EF1E83FED300A35EBF /* Assets.xcassets in Resources */,
 				FA66245C1E9D075B00DBB8F4 /* Tiles.sks in Resources */,
