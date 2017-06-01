@@ -39,9 +39,6 @@ class GameScene: SKScene {
     override func didMove(to view: SKView) {
         
         // thought: move cloud up a tile, while having a shadow on the tile you are on. dunno if i can get semi-transparent images but if not, make it small enough that you can see the tile it's on
-        // have a function that removes the cloudnode from the parent, or just update the position of the cloud
-        //self.addChild(player.cloudNode)
-        //player.cloudNode.position = CGPoint(x: 1056, y: 800)
         cloudPlacement(ex: CGFloat(1056), why: CGFloat(800))
         
         // setting up camera
@@ -167,13 +164,14 @@ class GameScene: SKScene {
         print("Y: \(locY)")
         
         
-
-         for (_, location) in waterTiles {
+        // if the camera is over top a water tile, then display that the player is over top a water tile
+        for (_, location) in waterTiles {
             if Int(locX) == location[0] && Int(locY) == location[1]{
                     myLabel.text = "you are on a water tile"
             }
         }
         
+        // if the player clicks the same tile twice, then move the cloud to that tile
         if locX == lastX && locY == lastY {
             cloudPlacement(ex: posX, why: posY)
         }
@@ -182,6 +180,7 @@ class GameScene: SKScene {
         lastY = locY
     }
     
+    // removing previous cloud, and placing a new one on the tile that was double clicked, or the middle on game start up
     func cloudPlacement(ex:CGFloat, why:CGFloat) {
         player.cloudNode.removeFromParent()
         self.addChild(player.cloudNode)
