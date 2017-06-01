@@ -24,7 +24,7 @@ class GameScene: SKScene {
     
     class cloud {
         let size = CGSize(width: 64, height: 64)
-        let image = SKTexture(image: #imageLiteral(resourceName: "bg_cloud8"))
+        let cloudNode = SKSpriteNode(imageNamed: "bg_cloud8")
         var positionX:CGFloat = 0.0
         var positionY:CGFloat = 0.0
     }
@@ -40,10 +40,9 @@ class GameScene: SKScene {
         
         // thought: move cloud up a tile, while having a shadow on the tile you are on. dunno if i can get semi-transparent images but if not, make it small enough that you can see the tile it's on
         // have a function that removes the cloudnode from the parent, or just update the position of the cloud
-        let cloudNode = SKSpriteNode(texture: player.image, size: player.size)
-        self.addChild(cloudNode)
-        cloudNode.position = CGPoint(x: 1056, y: 800)
-        cloudNode.removeFromParent()
+        //self.addChild(player.cloudNode)
+        //player.cloudNode.position = CGPoint(x: 1056, y: 800)
+        cloudPlacement(ex: CGFloat(1056), why: CGFloat(800))
         
         // setting up camera
         cam = SKCameraNode()
@@ -184,14 +183,12 @@ class GameScene: SKScene {
     }
     
     func cloudPlacement(ex:CGFloat, why:CGFloat) {
-        let cloudNode = SKSpriteNode(texture: player.image, size: player.size)
-        cloudNode.removeAllChildren()
-        self.addChild(cloudNode)
-        cloudNode.position = CGPoint(x: ex, y: why)
+        player.cloudNode.removeFromParent()
+        self.addChild(player.cloudNode)
+        player.cloudNode.position = CGPoint(x: ex, y: why)
     }
     
 }
-
 
 
 
