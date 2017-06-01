@@ -186,6 +186,8 @@ class GameScene: SKScene {
         player.cloudNode.removeFromParent()
         self.addChild(player.cloudNode)
         player.cloudNode.position = CGPoint(x: ex, y: why)
+        player.positionX = ex
+        player.positionY = why
     }
     
 }
