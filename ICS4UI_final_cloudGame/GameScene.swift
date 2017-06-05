@@ -23,14 +23,15 @@ class GameScene: SKScene {
     var myLabel:SKLabelNode!
     
     class cloud {
-        let size = CGSize(width: 64, height: 64)
         let cloudNode = SKSpriteNode(imageNamed: "bg_cloud8")
         var positionX:CGFloat = 0.0
         var positionY:CGFloat = 0.0
+        var water:Int = 0
+        var user = false
     }
     
     let player = cloud()
-        
+    
     var lastX:CGFloat = 0
     var lastY:CGFloat = 0
     
@@ -38,7 +39,8 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         
-        // thought: move cloud up a tile, while having a shadow on the tile you are on. dunno if i can get semi-transparent images but if not, make it small enough that you can see the tile it's on
+        player.user = true
+        
         cloudPlacement(ex: CGFloat(1056), why: CGFloat(800))
         
         // setting up camera
@@ -77,6 +79,9 @@ class GameScene: SKScene {
         let rows = 50
         let size = CGSize(width: 64, height: 64)
         
+        let rate = [1,2,4,7,11,18,28,40,50,65,80,100]
+        var orderRate = 0
+        
         guard let tileSet = SKTileSet(named: "Water Tile") else {
             fatalError("Water Tile Set not found")
         }
@@ -110,11 +115,12 @@ class GameScene: SKScene {
             column = column - 33
             row = row - 25
             
-            waterTiles["\(index)"] = [column, row]
+            waterTiles["\(index)"] = [column, row, rate[orderRate]]
+            orderRate+=1
             
         }
         for (tile, location) in waterTiles {
-            print("The location of tile \(tile) is \(location)")
+            print("The location of tile \(tile) is (\(location[0]),\(location[1])) with a collection rate of \(location[2])")
         }
     }
     
@@ -194,7 +200,13 @@ class GameScene: SKScene {
 
 
 
-
+/*
+ few ideas:
+ 
+ - make camera movement an skaction so that it moves across the screen instead of teleporting
+ - add label to top of screen showing the player the amount of water they currenty have, and make that an action that increases every second if the player is on a water tile
+ - thought: move cloud up a tile, while having a shadow on the tile you are on. dunno if i can get semi-transparent images but if not, make it small enough that you can see the tile it's on
+ */
 
 
 
