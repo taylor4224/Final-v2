@@ -21,6 +21,7 @@ class GameScene: SKScene {
     var cam:SKCameraNode!
     
     var myLabel:SKLabelNode!
+    var scoreboard:SKLabelNode!
     
     class cloud {
         let cloudNode = SKSpriteNode(imageNamed: "bg_cloud8")
@@ -56,7 +57,18 @@ class GameScene: SKScene {
         myLabel.text = "you are here"
         myLabel.fontSize = 20
         myLabel.fontColor = SKColor.black
+        myLabel.zPosition = CGFloat(1.0)
         cam.addChild(myLabel)
+        
+        scoreboard = SKLabelNode(fontNamed: "Arial")
+        scoreboard.text = "your current score is \(player.water)"
+        scoreboard.fontSize = 30
+        scoreboard.fontColor = SKColor.black
+        scoreboard.zPosition = 1
+        scoreboard.position = CGPoint(x: 608 ,y:1504)
+        scoreboard.horizontalAlignmentMode = .left
+        self.addChild(scoreboard)
+        //cam.addChild(scoreboard)
         
         
         // preparing the map, making sure the forest background loaded, and that water tiles get placed
@@ -144,6 +156,9 @@ class GameScene: SKScene {
         var posX:CGFloat = 32
         var posY:CGFloat = 32
         
+        var scoreX:CGFloat = 32
+        var scoreY:CGFloat = 32
+        
         locX = locX - locX.truncatingRemainder(dividingBy: 1)
         locY = locY - locY.truncatingRemainder(dividingBy: 1)
         
@@ -164,8 +179,12 @@ class GameScene: SKScene {
         posX += 64*locX
         posY += 64*locY
         
+        scoreX = posX - 448
+        scoreY = posY + 704
+        
         
         cam.position = CGPoint(x: posX, y: posY)
+        scoreboard.position = CGPoint(x: scoreX, y: scoreY)
         print("X: \(locX)")
         print("Y: \(locY)")
         
@@ -193,6 +212,7 @@ class GameScene: SKScene {
         player.cloudNode.position = CGPoint(x: ex, y: why)
         player.positionX = ex
         player.positionY = why
+        
     }
     
 }
