@@ -14,7 +14,6 @@ class GameScene: SKScene {
     var landBackground:SKTileMapNode!
     var waterTileMap:SKTileMapNode!
     
-    
     // touch location
     var targetLocation: CGPoint = .zero
     
@@ -38,8 +37,8 @@ class GameScene: SKScene {
     
     var waterTiles: [String: [Int]] = [:]
     
+    
     override func didMove(to view: SKView) {
-        
         player.user = true
         
         cloudPlacement(ex: CGFloat(1056), why: CGFloat(800))
@@ -61,15 +60,13 @@ class GameScene: SKScene {
         cam.addChild(myLabel)
         
         scoreboard = SKLabelNode(fontNamed: "Arial")
-        scoreboard.text = "your current score is \(player.water)"
+        scoreboard.text = "you have \(player.water) unit of water"
         scoreboard.fontSize = 30
         scoreboard.fontColor = SKColor.black
         scoreboard.zPosition = 1
         scoreboard.position = CGPoint(x: 608 ,y:1504)
         scoreboard.horizontalAlignmentMode = .left
         self.addChild(scoreboard)
-        //cam.addChild(scoreboard)
-        
         
         // preparing the map, making sure the forest background loaded, and that water tiles get placed
         loadSceneNodes()
@@ -85,12 +82,12 @@ class GameScene: SKScene {
         self.landBackground = landBackground
     }
     
+    
     // randomly placing water tiles on top of forest tiles
     func setupWater() {
         let columns = 66
         let rows = 50
         let size = CGSize(width: 64, height: 64)
-        
         let rate = [1,2,4,7,11,18,28,40,50,65,80,100]
         var orderRate = 0
         
@@ -99,11 +96,9 @@ class GameScene: SKScene {
         }
         
         waterTileMap = SKTileMapNode(tileSet: tileSet, columns: columns, rows: rows, tileSize: size)
-        
         addChild(waterTileMap)
         
         let tileGroups = tileSet.tileGroups
-        
         guard let waterTile = tileGroups.first(where: {$0.name == "Water"}) else {
             fatalError("No Water tile definition found")
         }
@@ -129,7 +124,6 @@ class GameScene: SKScene {
             
             waterTiles["\(index)"] = [column, row, rate[orderRate]]
             orderRate+=1
-            
         }
         for (tile, location) in waterTiles {
             print("The location of tile \(tile) is (\(location[0]),\(location[1])) with a collection rate of \(location[2])")
@@ -137,7 +131,6 @@ class GameScene: SKScene {
     }
     
 
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         myLabel.text = "you are here"
         
@@ -145,17 +138,14 @@ class GameScene: SKScene {
         let twenty:CGFloat = 24.0
         let thirty:CGFloat = 32.0
         
-        
         let firstTouch = touches.first
         let location = (firstTouch?.location(in: self))!
         
         // taking raw coordinate position, and turning it into a location of a tile
         var locX = location.x/64
         var locY = location.y/64
-
         var posX:CGFloat = 32
         var posY:CGFloat = 32
-        
         var scoreX:CGFloat = 32
         var scoreY:CGFloat = 32
         
@@ -178,10 +168,8 @@ class GameScene: SKScene {
         
         posX += 64*locX
         posY += 64*locY
-        
         scoreX = posX - 448
         scoreY = posY + 704
-        
         
         cam.position = CGPoint(x: posX, y: posY)
         scoreboard.position = CGPoint(x: scoreX, y: scoreY)
@@ -195,15 +183,14 @@ class GameScene: SKScene {
                     myLabel.text = "you are on a water tile"
             }
         }
-        
         // if the player clicks the same tile twice, then move the cloud to that tile
         if locX == lastX && locY == lastY {
             cloudPlacement(ex: posX, why: posY)
         }
-
         lastX = locX
         lastY = locY
     }
+    
     
     // removing previous cloud, and placing a new one on the tile that was double clicked, or the middle on game start up
     func cloudPlacement(ex:CGFloat, why:CGFloat) {
