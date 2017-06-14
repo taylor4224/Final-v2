@@ -68,6 +68,8 @@ class GameScene: SKScene {
         scoreboard.horizontalAlignmentMode = .left
         self.addChild(scoreboard)
         
+        waterScore()
+        
         // preparing the map, making sure the forest background loaded, and that water tiles get placed
         loadSceneNodes()
         setupWater()
@@ -194,14 +196,36 @@ class GameScene: SKScene {
     
     // removing previous cloud, and placing a new one on the tile that was double clicked, or the middle on game start up
     func cloudPlacement(ex:CGFloat, why:CGFloat) {
+        let a = (ex - 32)/64
+        let b = (why - 32)/64
+        
         player.cloudNode.removeFromParent()
         self.addChild(player.cloudNode)
         player.cloudNode.position = CGPoint(x: ex, y: why)
-        player.positionX = ex
-        player.positionY = why
+        player.positionX = a
+        player.positionY = b
+        print(player.positionX)
+        print(player.positionY)
         
     }
     
+    // increases the scoreboard when the cloud is on a water tile
+    func waterScore() {
+        let wait = SKAction.wait(forDuration:2.5)
+        let action = SKAction.run {
+            for (_, location) in self.waterTiles {
+                if self.player.positionX == CGFloat(location[0]) && self.player.positionY == CGFloat(location[1]) {
+                    self.player.water += location[2]
+                    self.scoreboard.text = "You currently have \(self.player.water) units of water"
+                }
+            }
+        }
+        let recursive = SKAction.run {
+            self.waterScore()
+        }
+        run(SKAction.sequence([wait,action,recursive]))
+    }
+
 }
 
 
@@ -211,9 +235,9 @@ class GameScene: SKScene {
  few ideas:
  
  - make camera movement an skaction so that it moves across the screen instead of teleporting
- - add label to top of screen showing the player the amount of water they currenty have, and make that an action that increases every second if the player is on a water tile
+ done: add label to top of screen showing the player the amount of water they currenty have, and make that an action that increases every second if the player is on a water tile
  - thought: move cloud up a tile, while having a shadow on the tile you are on. dunno if i can get semi-transparent images but if not, make it small enough that you can see the tile it's on
- */
+*/
 
 
 
